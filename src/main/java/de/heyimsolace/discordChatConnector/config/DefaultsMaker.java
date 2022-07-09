@@ -17,13 +17,13 @@ public class DefaultsMaker {
     public static HashMap<String, String> playerMap() {
         HashMap<String, String> config = new HashMap<>();
         config.put("MinecraftName", "DiscordID");
-        config.put("notch:", "<@012345678901234567>");
+        config.put("notch", "012345678901234567");
         return config;
     }
 
     public static HashMap<String, String> messageCfg() {
         HashMap<String, String> config = new HashMap<>();
-        config.put("prefix", "§f[§9DISCORD§f]");
+        config.put("template", "§f[§9DC§f] §7{USER}§f: §7{MESSAGE}");
         return config;
     }
 }

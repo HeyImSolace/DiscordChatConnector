@@ -1,6 +1,7 @@
 package de.heyimsolace.discordChatConnector.rest;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import de.heyimsolace.discordChatConnector.DiscordChatConnector;
@@ -33,21 +34,19 @@ public class MessageRest implements HttpHandler {
      */
     public void sendMessage(Message msg) {
         try {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().serializeNulls().create();
             String json = gson.toJson(msg);
-
+            DiscordChatConnector.log.info("Sending Message: " + json);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(boturl + apiPath))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
-
             HttpClient client = HttpClient.newBuilder().build();
             client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                     .thenApply(HttpResponse::body)
                     .thenAccept(System.out::println)
                     .exceptionally(t -> {
-                        System.out.println("Exception: " + t.getMessage());
                         return null;
                     });
         } catch (IllegalArgumentException e) {
@@ -58,11 +57,11 @@ public class MessageRest implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) {
         try {
-
             switch (exchange.getRequestMethod()) {
                 case "POST":
                     Gson gson = new Gson();
                     Message msg = gson.fromJson(new InputStreamReader(exchange.getRequestBody()), Message.class);
+                    DiscordChatConnector.log.info(msg.toString());
                     ServerLifecycleHooks.getCurrentServer()
                             .getPlayerList().getPlayers().forEach(p -> {
                                 p.sendMessage(new TextComponent(msg.buildChatMessage()), UUID.randomUUID());

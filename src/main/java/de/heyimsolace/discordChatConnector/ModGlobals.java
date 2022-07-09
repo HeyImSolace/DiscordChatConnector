@@ -2,6 +2,7 @@ package de.heyimsolace.discordChatConnector;
 
 import de.heyimsolace.discordChatConnector.config.DefaultsMaker;
 import de.heyimsolace.discordChatConnector.config.FileParser;
+import de.heyimsolace.discordChatConnector.config.PlayerMapFileParser;
 
 public class ModGlobals {
 
@@ -18,10 +19,10 @@ public class ModGlobals {
         return botCfg;
     }
 
-    private static FileParser playerMap;
-    public static FileParser getPlayerMap() {
+    private static PlayerMapFileParser playerMap;
+    public static PlayerMapFileParser getPlayerMap() {
         if (playerMap == null) {
-            playerMap = new FileParser(PLAYER_MAP_NAME, DefaultsMaker.playerMap());
+            playerMap = new PlayerMapFileParser(PLAYER_MAP_NAME, DefaultsMaker.playerMap());
         }
         return playerMap;
     }
