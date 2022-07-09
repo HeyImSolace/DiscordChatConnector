@@ -91,7 +91,10 @@ public class FileParser {
      * @param key The Key of the Value
      * @param value The Value to be set
      */
-    public void setValue(String key, String value) {
+    public void putValue(String key, String value) {
+        if (values.containsKey(key)){
+            values.remove(key);
+        }
         values.put(key, value);
     }
 

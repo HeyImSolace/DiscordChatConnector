@@ -1,12 +1,16 @@
 package de.heyimsolace.discordChatConnector;
 
+import de.heyimsolace.discordChatConnector.commands.ReloadConfigsCommand;
 import de.heyimsolace.discordChatConnector.event.JoinLeaveListener;
 import de.heyimsolace.discordChatConnector.event.MessageListener;
 import de.heyimsolace.discordChatConnector.rest.MessageRest;
 import de.heyimsolace.discordChatConnector.rest.PlayerListRest;
 import de.heyimsolace.discordChatConnector.rest.Server;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.server.command.ConfigCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +36,13 @@ public class DiscordChatConnector {
         s.registerContext("/playerlist", new PlayerListRest());
         s.start();
 
+    }
+
+    @SubscribeEvent
+    public static void registerCommands(RegisterCommandsEvent event) {
+        new ReloadConfigsCommand(event.getDispatcher());
+
+        ConfigCommand.register(event.getDispatcher());
     }
 
 }

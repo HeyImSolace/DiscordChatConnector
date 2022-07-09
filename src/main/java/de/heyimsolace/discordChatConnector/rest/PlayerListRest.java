@@ -25,19 +25,19 @@ public class PlayerListRest implements HttpHandler {
     private final String apiPath;
 
     public PlayerListRest() {
-        boturl = ModGlobals.getPlayerListCfg().getValue("boturl");
-        apiPath = ModGlobals.getPlayerListCfg().getValue("playerlistapi");
+        boturl = ModGlobals.getBotCfg().getValue("boturl");
+        apiPath = ModGlobals.getBotCfg().getValue("playerlistapi");
     }
 
     @Override
     public void handle(HttpExchange exchange) {
         try {
-        if (exchange.getRequestURI().toString().endsWith("/addUser")) {
+        if (exchange.getRequestURI().toString().endsWith("/match")) {
             switch (exchange.getRequestMethod()) {
                 case "POST":
                     Gson gson = new Gson();
                     PlayerMapping pmap = gson.fromJson(new InputStreamReader(exchange.getRequestBody()), PlayerMapping.class);
-                    ModGlobals.getPlayerMap().setValue(pmap.getMinecraftUserName(), pmap.getDiscordUserId());
+                    ModGlobals.getPlayerMap().putValue(pmap.getMinecraftUserName(), pmap.getDiscordUserId());
                     ModGlobals.getPlayerMap().saveConfigFile();
                     exchange.sendResponseHeaders(200, 0);
                     exchange.close();

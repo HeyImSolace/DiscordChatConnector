@@ -24,8 +24,8 @@ public class MessageRest implements HttpHandler {
 
 
     public MessageRest() {
-        boturl = ModGlobals.getPlayerListCfg().getValue("boturl");
-        apiPath = ModGlobals.getPlayerListCfg().getValue("messageapi");
+        boturl = ModGlobals.getBotCfg().getValue("boturl");
+        apiPath = ModGlobals.getBotCfg().getValue("messageapi");
     }
 
     /**
