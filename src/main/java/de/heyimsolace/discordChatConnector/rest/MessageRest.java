@@ -36,7 +36,6 @@ public class MessageRest implements HttpHandler {
         try {
             Gson gson = new GsonBuilder().serializeNulls().create();
             String json = gson.toJson(msg);
-            DiscordChatConnector.log.info("Sending Message: " + json);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(boturl + apiPath))
                     .header("Content-Type", "application/json")
@@ -61,7 +60,6 @@ public class MessageRest implements HttpHandler {
                 case "POST":
                     Gson gson = new Gson();
                     Message msg = gson.fromJson(new InputStreamReader(exchange.getRequestBody()), Message.class);
-                    DiscordChatConnector.log.info(msg.toString());
                     ServerLifecycleHooks.getCurrentServer()
                             .getPlayerList().getPlayers().forEach(p -> {
                                 p.sendMessage(new TextComponent(msg.buildChatMessage()), UUID.randomUUID());
